@@ -11,4 +11,5 @@ app.use(express.json())
 app.use(fruitRoutes)
 app.use(storeRoutes)
 dbConnection()
-app.listen(PORT, () => console.log(`🔥 server running on ${PORT}`))
+
+app.listen(PORT, () => console.log(`🔥 server running on ${PORT} 🔥`))
