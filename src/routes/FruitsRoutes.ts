@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { fruitsRepository, fruitsService } from '..'
+import { fruitsRepository, fruitsService, storesService } from '..'
 
 export const routes = Router()
 
@@ -73,12 +73,13 @@ routes.put('/fruits/add/:id', async (req, res) => {
 
   }
 })
-routes.put('/fruits/remove/:id', async (req, res) => {
+routes.put('/fruits/sell/:id', async (req, res) => {
   const { id } = req.params
   const { quantity } = req.body
 
   try {
-    await fruitsService.removeQuantity(id, quantity)
+    const fruit = await fruitsService.removeQuantity(id, quantity)
+    await storesService.sellProduct(fruit.price * quantity)
     return res.status(200).send()
   } catch (error) {
     if (error instanceof Error) {

@@ -1,7 +1,9 @@
 import { Router } from 'express'
+import { storesRepository } from '..'
 
 export const routes = Router()
 
-routes.get('/store', (req, res) => {
-  console.log('store')
+routes.get('/store', async (req, res) => {
+  const store = await storesRepository.getStore()
+  return res.status(200).json(store)
 })

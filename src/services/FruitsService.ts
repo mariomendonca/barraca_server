@@ -48,6 +48,7 @@ export class FruitsService {
 
     fruit.quantity += quantity
     await this.fruitsRepository.changeQuantity(id, fruit)
+    return fruit
   }
 
   async removeQuantity(id: string, quantity: number) {
@@ -59,5 +60,6 @@ export class FruitsService {
 
     fruit.quantity -= quantity
     await this.fruitsRepository.changeQuantity(id, fruit)
+    return fruit
   }
 }
