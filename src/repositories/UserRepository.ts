@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs'
 import { IUser, User } from '../entities/User'
 
 export class UserRepository {
@@ -5,7 +6,7 @@ export class UserRepository {
     const user = new User({
       email: props.email,
       name: props.name,
-      password: props.password
+      password: bcrypt.hashSync(props.password, 8)
     })
 
     await user.save()
@@ -13,10 +14,20 @@ export class UserRepository {
   }
 
   async getByEmailAndPassword(email: string, password: string): Promise<IUser | null> {
-    const user = User.findOne({ email: email, password: password })
+    const user = await User.findOne({ email })
+
+
     if (!user) {
       return null
     }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password)
+
+    if (!isPasswordValid) {
+      console.log('error')
+      return null
+    }
+
     return user
   }
 }

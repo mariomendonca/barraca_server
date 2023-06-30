@@ -1,9 +1,10 @@
 import { Router } from 'express'
 import { fruitsRepository, fruitsService, storesService } from '..'
+import { authMiddleware } from '../middlewares/authMiddleware'
 
 export const routes = Router()
 
-routes.get('/fruits/:name', async (req, res) => {
+routes.get('/fruits/:name', authMiddleware, async (req, res) => {
   const { name } = req.params
 
   try {
@@ -18,7 +19,7 @@ routes.get('/fruits/:name', async (req, res) => {
   }
 })
 
-routes.get('/fruits/id/:id', async (req, res) => {
+routes.get('/fruits/id/:id', authMiddleware, async (req, res) => {
   const { id } = req.params
 
   try {
@@ -33,7 +34,7 @@ routes.get('/fruits/id/:id', async (req, res) => {
   }
 })
 
-routes.get('/fruits', async (req, res) => {
+routes.get('/fruits', authMiddleware, async (req, res) => {
   try {
     const fruits = await fruitsRepository.findAll()
     return res.status(200).json(fruits)
@@ -42,7 +43,7 @@ routes.get('/fruits', async (req, res) => {
   }
 })
 
-routes.post('/fruits', async (req, res) => {
+routes.post('/fruits', authMiddleware, async (req, res) => {
   const { name, quantity, price } = req.body
 
   try {
@@ -57,7 +58,7 @@ routes.post('/fruits', async (req, res) => {
   }
 })
 
-routes.put('/fruits/add/:id', async (req, res) => {
+routes.put('/fruits/add/:id', authMiddleware, async (req, res) => {
   const { id } = req.params
   const { quantity } = req.body
 
@@ -73,7 +74,7 @@ routes.put('/fruits/add/:id', async (req, res) => {
 
   }
 })
-routes.put('/fruits/sell/:id', async (req, res) => {
+routes.put('/fruits/sell/:id', authMiddleware, async (req, res) => {
   const { id } = req.params
   const { quantity } = req.body
 
@@ -91,7 +92,7 @@ routes.put('/fruits/sell/:id', async (req, res) => {
   }
 })
 
-routes.delete('/fruits/:id', async (req, res) => {
+routes.delete('/fruits/:id', authMiddleware, async (req, res) => {
   const { id } = req.params
 
   try {
